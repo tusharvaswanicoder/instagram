@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Container, Content, Placeholder, ShowHidePassword } from "./styles";
+import {
+    Container,
+    Content,
+    Placeholder,
+    ShowHidePassword,
+    ValidInvalidIcon,
+} from "./styles";
 
 const Input = ({
     style,
@@ -8,6 +14,7 @@ const Input = ({
     onChange,
     type,
     value,
+    isError,
     inputProps = {},
 }) => {
     const [shouldTransform, setShouldTransform] = useState(false);
@@ -31,7 +38,14 @@ const Input = ({
                 value={value}
                 type={isPasswordVisible ? "text" : type}
                 onChange={changeInputValue}
+                {...inputProps}
             />
+            {typeof isError === "boolean" && (
+                <ValidInvalidIcon
+                    isError={isError}
+                    style={type === "password" ? { margin: "0" } : {}}
+                />
+            )}
             {type === "password" && (
                 <ShowHidePassword
                     onClick={(e) => {

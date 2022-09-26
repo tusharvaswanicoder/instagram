@@ -14,7 +14,7 @@ export const Container = styled.div`
 export const Content = styled.input`
     border: none;
     position: relative;
-    width: 100%;
+    flex-grow: 1;
     padding: ${({ shouldTransform }) =>
         shouldTransform ? "1.4rem 0.8rem 0.2rem" : "0.9rem 0.8rem"};
     background: transparent;
@@ -42,4 +42,15 @@ export const ShowHidePassword = styled.button`
     font-size: 1.4rem;
     font-weight: 600;
     cursor: pointer;
+    flex-shrink: 0;
+`;
+
+export const ValidInvalidIcon = styled.div`
+    margin: 0px 0.8rem;
+    background: var(--all-icons2);
+    background-repeat: no-repeat;
+    background-position: -${({ isError }) => (isError ? 249 : 225)}px -333px;
+    height: 22px;
+    width: 22px;
+    flex-shrink: 0;
 `;

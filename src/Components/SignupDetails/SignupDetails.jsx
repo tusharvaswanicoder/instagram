@@ -10,7 +10,6 @@ const SignupDetails = ({
     setSignupCredentials,
     next,
     signupCredsErrors,
-    setSignupCredsErrors,
 }) => {
     return (
         <>
@@ -32,6 +31,7 @@ const SignupDetails = ({
                                 email: value,
                             })
                         }
+                        isError={signupCredsErrors.email}
                         placeholder="Email"
                     />
                     <Input
@@ -54,6 +54,7 @@ const SignupDetails = ({
                                 userName: value,
                             })
                         }
+                        isError={signupCredsErrors.userName}
                         placeholder="Username"
                     />
                     <Input
@@ -65,6 +66,7 @@ const SignupDetails = ({
                                 password: value,
                             })
                         }
+                        isError={signupCredsErrors.password}
                         placeholder="Password"
                     />
                 </InputGroup>
