@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
@@ -9,6 +9,9 @@ const Login = () => {
         email: "",
         password: "",
     });
+    useEffect(() => {
+        document.title = "Log in • Instagram";
+    }, []);
     return (
         <Container>
             <Link to="/">

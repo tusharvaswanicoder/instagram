@@ -78,4 +78,8 @@ input:focus {
     --aa6: 38, 38, 38;
     --ba8: 168, 168, 168;
     --eac: 237, 73, 86;
+
+    /* all icons background */
+
+    --all-icons: url("https://www.instagram.com/static/bundles/es6/sprite_glyphs_41972edb0a7c.png/41972edb0a7c.png");
 }

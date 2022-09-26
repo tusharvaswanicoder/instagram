@@ -15,6 +15,9 @@ export const LoginSignupJump = styled.div`
     & a {
         color: rgb(var(--d69));
         font-weight: 600;
+        &:active {
+            opacity: 0.5;
+        }
     }
 `;
 
