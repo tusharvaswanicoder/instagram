@@ -4,10 +4,10 @@ import SignupDetails from "../../Components/SignupDetails/SignupDetails";
 import SignupBirthdayDetails from "../../Components/SignupBirthdayDetails/SignupBirthdayDetails";
 import EmailConfirmation from "../../Components/EmailConfirmation/EmailConfirmation";
 import {
-    emailValidateSchema,
     passwordValidateSchema,
     userNameValidateSchema,
 } from "./validationSchema";
+import { useDebounce } from "use-debounce";
 
 const Signup = () => {
     const [signupCredentials, setSignupCredentials] = useState({
@@ -18,18 +18,7 @@ const Signup = () => {
         password: "",
     });
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
-    console.log(signupCredsErrors);
     const [activeStep, setActiveStep] = useState(0);
-    useEffect(() => {
-        if (signupCredentials.email) {
-            const isEmailValid = emailValidateSchema.validate(
-                signupCredentials.email
-            );
-            if (isEmailValid.error)
-                setSignupCredsErrors({ ...signupCredsErrors, email: true });
-            else setSignupCredsErrors({ ...signupCredsErrors, email: false });
-        }
-    }, [signupCredentials.email]);
     useEffect(() => {
         if (signupCredentials.userName) {
             const isUserNameValid = userNameValidateSchema.validate(

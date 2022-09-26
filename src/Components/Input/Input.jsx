@@ -15,7 +15,8 @@ const Input = ({
     type,
     value,
     isError,
-    inputProps = {},
+    inputRef,
+    ...inputProps
 }) => {
     const [shouldTransform, setShouldTransform] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -34,6 +35,7 @@ const Input = ({
                 {placeholder}
             </Placeholder>
             <Content
+                ref={inputRef}
                 shouldTransform={shouldTransform}
                 value={value}
                 type={isPasswordVisible ? "text" : type}

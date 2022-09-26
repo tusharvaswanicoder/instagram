@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { Form, InputGroup } from "../../Pages/Login/styles";
 import { Desc, Logo, SignupPara, SignupParas } from "./styles";
+import { emailValidateSchema } from "../../Pages/Signup/validationSchema";
+import { useDebounce } from "use-debounce";
 
 const SignupDetails = ({
     signupCredentials,
     setSignupCredentials,
     next,
     signupCredsErrors,
+    setSignupCredsErrors,
 }) => {
+    const [email, setEmail] = useState();
+    const [debouncedEmail] = useDebounce(email, 200);
+    const validateEmail = async () => {
+        const isEmailValid = emailValidateSchema.validate(email);
+        if (isEmailValid.error)
+            setSignupCredsErrors({ ...signupCredsErrors, email: true });
+        else {
+            const res = await fetch(
+                `${process.env.REACT_APP_API_URL}/users/validateemail?email=${email}`
+            );
+            const { valid } = await res.json();
+            setSignupCredsErrors({ ...signupCredsErrors, email: !valid });
+        }
+    };
+    useEffect(() => {
+        console.log(debouncedEmail);
+        if (typeof debouncedEmail === "string") validateEmail();
+    }, [debouncedEmail]);
     return (
         <>
             <Link to="/">
@@ -33,6 +54,12 @@ const SignupDetails = ({
                         }
                         isError={signupCredsErrors.email}
                         placeholder="Email"
+                        onBlur={({ target }) => {
+                            setEmail(target.value);
+                            target.addEventListener("keyup", (e) =>
+                                setEmail(e.target.value)
+                            );
+                        }}
                     />
                     <Input
                         type="text"
