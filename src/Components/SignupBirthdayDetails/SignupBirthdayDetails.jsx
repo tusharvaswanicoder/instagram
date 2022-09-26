@@ -23,6 +23,7 @@ const SignupBirthdayDetails = ({
     prev,
     next,
 }) => {
+    const month = signupCredentials.birthday.getMonth();
     const monthSelect = useRef();
     const dateSelect = useRef();
     const yearSelect = useRef();
@@ -52,7 +53,7 @@ const SignupBirthdayDetails = ({
             );
         }
         return dateOptions;
-    }, [signupCredentials.birthday.getMonth()]);
+    }, [month]);
     const yearOptions = useMemo(() => {
         console.log("yearOptions executed!");
         const yearOptions = [];
