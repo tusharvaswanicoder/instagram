@@ -7,6 +7,7 @@ import Signup from "./Pages/Signup/Signup";
 function App() {
     return (
         <Routes>
+            <Route path="/" element={<>Home</>} />
             <Route path="/accounts" element={<Accounts />}>
                 <Route path="login" element={<Login />} />
                 <Route path="emailsignup" element={<Signup />} />

@@ -5,7 +5,13 @@ import Input from "../Input/Input";
 import { Form, InputGroup } from "../../Pages/Login/styles";
 import { Desc, Logo, SignupPara, SignupParas } from "./styles";
 
-const SignupDetails = ({ signupCredentials, setSignupCredentials, next }) => {
+const SignupDetails = ({
+    signupCredentials,
+    setSignupCredentials,
+    next,
+    signupCredsErrors,
+    setSignupCredsErrors,
+}) => {
     return (
         <>
             <Link to="/">

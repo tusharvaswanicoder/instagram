@@ -12,11 +12,14 @@ const Signup = () => {
         birthday: new Date(),
         password: "",
     });
+    const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}
             setSignupCredentials={setSignupCredentials}
+            signupCredsErrors={signupCredsErrors}
+            setSignupCredsErrors={setSignupCredsErrors}
             next={() => setActiveStep(1)}
         />,
         <SignupBirthdayDetails
