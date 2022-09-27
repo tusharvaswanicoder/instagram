@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Container,
     Content,
@@ -14,11 +14,13 @@ const Input = ({
     onChange = () => {},
     type,
     value,
-    isError,
     inputRef,
+    isError,
+    validator,
     ...inputProps
 }) => {
     const [shouldTransform, setShouldTransform] = useState(Boolean(value));
+    const [startValidation, setStartValidation] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const changeInputValue = ({ target }) => {
         const { value } = target;
@@ -29,6 +31,11 @@ const Input = ({
         }
         setShouldTransform(false);
     };
+    useEffect(() => {
+        if (startValidation) {
+            validator(value);
+        }
+    }, [startValidation, value]);
     return (
         <Container style={style}>
             <Placeholder shouldTransform={shouldTransform} style={inputStyle}>
@@ -40,6 +47,9 @@ const Input = ({
                 value={value}
                 type={isPasswordVisible ? "text" : type}
                 onChange={changeInputValue}
+                onBlur={(e) =>
+                    validator && e.target.value && setStartValidation(true)
+                }
                 {...inputProps}
             />
             {typeof isError === "boolean" && (

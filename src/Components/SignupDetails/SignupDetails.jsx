@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { Form, InputGroup } from "../../Pages/Login/styles";
 import { Desc, Logo, SignupPara, SignupParas } from "./styles";
+import debounce from "../../Helpers/debounce";
 import {
     emailValidateSchema,
     passwordValidateSchema,
     userNameValidateSchema,
 } from "../../Pages/Signup/validationSchema";
-import { useDebounce } from "use-debounce";
 
 const SignupDetails = ({
     signupCredentials,
@@ -18,43 +18,52 @@ const SignupDetails = ({
     signupCredsErrors,
     setSignupCredsErrors,
 }) => {
-    // const [debouncedEmail] = useDebounce(signupCredentials.email, 200);
-    // const [debouncedUserName] = useDebounce(signupCredentials.userName, 200);
-    // const validateEmailUserName = async (what) => {
-    //     const isValid =
-    //         what === "email"
-    //             ? emailValidateSchema.validate(debouncedEmail)
-    //             : userNameValidateSchema.validate(debouncedUserName);
-    //     if (isValid.error)
-    //         setSignupCredsErrors({ ...signupCredsErrors, [what]: true });
-    //     else {
-    //         const res = await fetch(
-    //             `${
-    //                 process.env.REACT_APP_API_URL
-    //             }/users/validate${what.toLowerCase()}?${what}=${
-    //                 what === "email" ? debouncedEmail : debouncedUserName
-    //             }`
-    //         );
-    //         const { valid } = await res.json();
-    //         setSignupCredsErrors({ ...signupCredsErrors, [what]: !valid });
-    //     }
-    // };
-    // useEffect(() => {
-    //     if (debouncedEmail) validateEmailUserName("email");
-    //     else setSignupCredsErrors({ ...signupCredsErrors, email: undefined });
-    // }, [debouncedEmail]);
-    // useEffect(() => {
-    //     if (debouncedUserName) validateEmailUserName("userName");
-    //     else
-    //         setSignupCredsErrors({ ...signupCredsErrors, userName: undefined });
-    // }, [debouncedUserName]);
-    // useEffect(() => {
-    //     if (passwordValidateSchema.validate(signupCredentials.password)) {
-    //         setSignupCredsErrors({ ...signupCredsErrors, password: false });
-    //     } else {
-    //         setSignupCredsErrors({ ...signupCredsErrors, password: true });
-    //     }
-    // }, [signupCredentials.password]);
+    const validateEmailUsername = useCallback(async (what, value) => {
+        const isValid =
+            what === "email"
+                ? emailValidateSchema.validate(value)
+                : userNameValidateSchema.validate(value);
+        if (isValid.error)
+            setSignupCredsErrors((prev) => ({
+                ...prev,
+                [what]: true,
+            }));
+        else {
+            const res = await fetch(
+                `${
+                    process.env.REACT_APP_API_URL
+                }/users/validate${what.toLowerCase()}?${what}=${value}`
+            );
+            const { valid } = await res.json();
+            setSignupCredsErrors((prev) => ({
+                ...prev,
+                [what]: !valid,
+            }));
+        }
+    }, []);
+    const validateEmailUsernameDebounced = useMemo(
+        () => debounce(validateEmailUsername, 200),
+        []
+    );
+    const validatePassword = (value) => {
+        const isValid = passwordValidateSchema.validate(value);
+        if (isValid.error)
+            setSignupCredsErrors((prev) => ({
+                ...prev,
+                password: true,
+            }));
+        else
+            setSignupCredsErrors((prev) => ({
+                ...prev,
+                password: false,
+            }));
+    };
+    const formValidated = () => {
+        for (let field in signupCredsErrors)
+            if (signupCredsErrors[field]) return true;
+        for (let field in signupCredentials)
+            if (!signupCredentials[field]) return true;
+    };
     return (
         <>
             <Link to="/">
@@ -69,11 +78,14 @@ const SignupDetails = ({
                     <Input
                         type="email"
                         value={signupCredentials.email}
-                        onChange={(value) =>
+                        onChange={(value) => {
                             setSignupCredentials({
                                 ...signupCredentials,
                                 email: value,
-                            })
+                            });
+                        }}
+                        validator={(value) =>
+                            validateEmailUsernameDebounced("email", value)
                         }
                         isError={signupCredsErrors.email}
                         placeholder="Email"
@@ -98,6 +110,9 @@ const SignupDetails = ({
                                 userName: value,
                             })
                         }
+                        validator={(value) =>
+                            validateEmailUsernameDebounced("userName", value)
+                        }
                         isError={signupCredsErrors.userName}
                         placeholder="Username"
                     />
@@ -110,6 +125,7 @@ const SignupDetails = ({
                                 password: value,
                             })
                         }
+                        validator={validatePassword}
                         isError={signupCredsErrors.password}
                         placeholder="Password"
                     />
@@ -139,6 +155,7 @@ const SignupDetails = ({
                     </SignupPara>
                 </SignupParas>
                 <Button
+                    isDisabled={formValidated()}
                     onClick={next}
                     style={{ width: "100%", marginBottom: "2.8rem" }}
                 >
