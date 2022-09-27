@@ -18,7 +18,7 @@ const Input = ({
     inputRef,
     ...inputProps
 }) => {
-    const [shouldTransform, setShouldTransform] = useState(value);
+    const [shouldTransform, setShouldTransform] = useState(Boolean(value));
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const changeInputValue = ({ target }) => {
         const { value } = target;

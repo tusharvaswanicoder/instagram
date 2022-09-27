@@ -11,6 +11,7 @@ import {
     Link,
     MonthDayYear,
     MonthDayYearBirthdayRequired,
+    NetworkError,
     OwnBirthday,
     Select,
     SelectContainer,
@@ -20,6 +21,7 @@ import {
 const SignupBirthdayDetails = ({
     signupCredentials,
     setSignupCredentials,
+    signUpMutation,
     prev,
     next,
 }) => {
@@ -81,22 +83,6 @@ const SignupBirthdayDetails = ({
         date.setDate(target.value);
         setSignupCredentials({ ...signupCredentials, birthday: date });
     };
-    const signup = async () => {
-        const res = await fetch(
-            `${process.env.REACT_APP_API_URL}/users/signup`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                },
-                body: JSON.stringify(signupCredentials),
-            }
-        );
-        if (res.status === 201) {
-            next();
-        } else {
-        }
-    };
     return (
         <Container>
             <BirthdayIcon />
@@ -141,7 +127,8 @@ const SignupBirthdayDetails = ({
                 pet, or something else
             </OwnBirthday>
             <Button
-                onClick={signup}
+                isLoading={signUpMutation.isLoading}
+                onClick={next}
                 style={{
                     width: "100%",
                     margin: "1.6rem 0",
@@ -150,6 +137,13 @@ const SignupBirthdayDetails = ({
                 Next
             </Button>
             <Link onClick={prev}>Go Back</Link>
+            {signUpMutation.error &&
+                signUpMutation.error.code === "ERR_NETWORK" && (
+                    <NetworkError>
+                        We couldn't connect to Instagram. Make sure you're
+                        connected to the internet and try again.
+                    </NetworkError>
+                )}
         </Container>
     );
 };

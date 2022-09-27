@@ -7,6 +7,8 @@ import {
     passwordValidateSchema,
     userNameValidateSchema,
 } from "./validationSchema";
+import { useMutation } from "react-query";
+import { signUp } from "../../Api/usersApi";
 
 const Signup = () => {
     const [signupCredentials, setSignupCredentials] = useState({
@@ -18,6 +20,8 @@ const Signup = () => {
     });
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
+    const signUpMutation = useMutation(signUp);
+    console.log(signUpMutation);
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}
@@ -30,7 +34,11 @@ const Signup = () => {
             signupCredentials={signupCredentials}
             setSignupCredentials={setSignupCredentials}
             prev={() => setActiveStep(0)}
-            next={() => setActiveStep(2)}
+            signUpMutation={signUpMutation}
+            next={async () => {
+                signUpMutation.mutate(signupCredentials);
+                // setActiveStep(2);
+            }}
         />,
         <EmailConfirmation />,
     ];

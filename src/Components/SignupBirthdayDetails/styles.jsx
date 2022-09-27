@@ -108,3 +108,10 @@ export const Link = styled.button`
         opacity: 0.7;
     }
 `;
+
+export const NetworkError = styled.div`
+    margin: 1.4rem 0px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(var(--ig-error-or-destructive));
+`;
