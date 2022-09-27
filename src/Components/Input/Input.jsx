@@ -11,14 +11,14 @@ const Input = ({
     style,
     inputStyle,
     placeholder,
-    onChange,
+    onChange = () => {},
     type,
     value,
     isError,
     inputRef,
     ...inputProps
 }) => {
-    const [shouldTransform, setShouldTransform] = useState(false);
+    const [shouldTransform, setShouldTransform] = useState(value);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const changeInputValue = ({ target }) => {
         const { value } = target;

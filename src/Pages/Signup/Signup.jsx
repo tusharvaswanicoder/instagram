@@ -7,40 +7,17 @@ import {
     passwordValidateSchema,
     userNameValidateSchema,
 } from "./validationSchema";
-import { useDebounce } from "use-debounce";
 
 const Signup = () => {
     const [signupCredentials, setSignupCredentials] = useState({
         email: "",
         fullName: "",
         userName: "",
-        birthday: new Date(),
         password: "",
+        birthday: new Date(),
     });
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
-    useEffect(() => {
-        if (signupCredentials.userName) {
-            const isUserNameValid = userNameValidateSchema.validate(
-                signupCredentials.userName
-            );
-            if (isUserNameValid.error)
-                setSignupCredsErrors({ ...signupCredsErrors, userName: true });
-            else
-                setSignupCredsErrors({ ...signupCredsErrors, userName: false });
-        }
-    }, [signupCredentials.userName]);
-    useEffect(() => {
-        if (signupCredentials.password) {
-            const isPasswordValid = passwordValidateSchema.validate(
-                signupCredentials.password
-            );
-            if (isPasswordValid.error)
-                setSignupCredsErrors({ ...signupCredsErrors, password: true });
-            else
-                setSignupCredsErrors({ ...signupCredsErrors, password: false });
-        }
-    }, [signupCredentials.password]);
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}

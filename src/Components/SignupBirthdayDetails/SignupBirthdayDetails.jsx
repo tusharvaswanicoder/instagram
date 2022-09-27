@@ -81,6 +81,22 @@ const SignupBirthdayDetails = ({
         date.setDate(target.value);
         setSignupCredentials({ ...signupCredentials, birthday: date });
     };
+    const signup = async () => {
+        const res = await fetch(
+            `${process.env.REACT_APP_API_URL}/users/signup`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                body: JSON.stringify(signupCredentials),
+            }
+        );
+        if (res.status === 201) {
+            next();
+        } else {
+        }
+    };
     return (
         <Container>
             <BirthdayIcon />
@@ -125,7 +141,7 @@ const SignupBirthdayDetails = ({
                 pet, or something else
             </OwnBirthday>
             <Button
-                onClick={next}
+                onClick={signup}
                 style={{
                     width: "100%",
                     margin: "1.6rem 0",

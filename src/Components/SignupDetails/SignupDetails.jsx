@@ -4,7 +4,11 @@ import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { Form, InputGroup } from "../../Pages/Login/styles";
 import { Desc, Logo, SignupPara, SignupParas } from "./styles";
-import { emailValidateSchema } from "../../Pages/Signup/validationSchema";
+import {
+    emailValidateSchema,
+    passwordValidateSchema,
+    userNameValidateSchema,
+} from "../../Pages/Signup/validationSchema";
 import { useDebounce } from "use-debounce";
 
 const SignupDetails = ({
@@ -14,24 +18,43 @@ const SignupDetails = ({
     signupCredsErrors,
     setSignupCredsErrors,
 }) => {
-    const [email, setEmail] = useState();
-    const [debouncedEmail] = useDebounce(email, 200);
-    const validateEmail = async () => {
-        const isEmailValid = emailValidateSchema.validate(email);
-        if (isEmailValid.error)
-            setSignupCredsErrors({ ...signupCredsErrors, email: true });
-        else {
-            const res = await fetch(
-                `${process.env.REACT_APP_API_URL}/users/validateemail?email=${email}`
-            );
-            const { valid } = await res.json();
-            setSignupCredsErrors({ ...signupCredsErrors, email: !valid });
-        }
-    };
-    useEffect(() => {
-        console.log(debouncedEmail);
-        if (typeof debouncedEmail === "string") validateEmail();
-    }, [debouncedEmail]);
+    // const [debouncedEmail] = useDebounce(signupCredentials.email, 200);
+    // const [debouncedUserName] = useDebounce(signupCredentials.userName, 200);
+    // const validateEmailUserName = async (what) => {
+    //     const isValid =
+    //         what === "email"
+    //             ? emailValidateSchema.validate(debouncedEmail)
+    //             : userNameValidateSchema.validate(debouncedUserName);
+    //     if (isValid.error)
+    //         setSignupCredsErrors({ ...signupCredsErrors, [what]: true });
+    //     else {
+    //         const res = await fetch(
+    //             `${
+    //                 process.env.REACT_APP_API_URL
+    //             }/users/validate${what.toLowerCase()}?${what}=${
+    //                 what === "email" ? debouncedEmail : debouncedUserName
+    //             }`
+    //         );
+    //         const { valid } = await res.json();
+    //         setSignupCredsErrors({ ...signupCredsErrors, [what]: !valid });
+    //     }
+    // };
+    // useEffect(() => {
+    //     if (debouncedEmail) validateEmailUserName("email");
+    //     else setSignupCredsErrors({ ...signupCredsErrors, email: undefined });
+    // }, [debouncedEmail]);
+    // useEffect(() => {
+    //     if (debouncedUserName) validateEmailUserName("userName");
+    //     else
+    //         setSignupCredsErrors({ ...signupCredsErrors, userName: undefined });
+    // }, [debouncedUserName]);
+    // useEffect(() => {
+    //     if (passwordValidateSchema.validate(signupCredentials.password)) {
+    //         setSignupCredsErrors({ ...signupCredsErrors, password: false });
+    //     } else {
+    //         setSignupCredsErrors({ ...signupCredsErrors, password: true });
+    //     }
+    // }, [signupCredentials.password]);
     return (
         <>
             <Link to="/">
@@ -54,12 +77,6 @@ const SignupDetails = ({
                         }
                         isError={signupCredsErrors.email}
                         placeholder="Email"
-                        onBlur={({ target }) => {
-                            setEmail(target.value);
-                            target.addEventListener("keyup", (e) =>
-                                setEmail(e.target.value)
-                            );
-                        }}
                     />
                     <Input
                         type="text"
