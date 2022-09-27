@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import months from "../../data/months";
 import Button from "../Button/Button";
+import checkEligibility from "../../Helpers/checkEligibility.js";
 import {
     BirthdayIcon,
     BirthdayRequired,
@@ -29,11 +30,17 @@ const SignupBirthdayDetails = ({
     const monthSelect = useRef();
     const dateSelect = useRef();
     const yearSelect = useRef();
+    const [nextDisabled, setNextDisabled] = useState(true);
     useEffect(() => {
         monthSelect.current.value = signupCredentials.birthday.getMonth();
         dateSelect.current.value = signupCredentials.birthday.getDate();
         yearSelect.current.value = signupCredentials.birthday.getFullYear();
     }, []);
+    useEffect(() => {
+        if (checkEligibility(signupCredentials.birthday))
+            setNextDisabled(false);
+        else setNextDisabled(true);
+    }, [signupCredentials.birthday]);
     const daysInMonth = (anyDateInMonth) =>
         new Date(
             anyDateInMonth.getFullYear(),
@@ -67,17 +74,17 @@ const SignupBirthdayDetails = ({
         return yearOptions;
     }, []);
     const setYear = ({ target }) => {
-        const date = signupCredentials.birthday;
+        const date = new Date(signupCredentials.birthday);
         date.setFullYear(target.value);
         setSignupCredentials({ ...signupCredentials, birthday: date });
     };
     const setMonth = ({ target }) => {
-        const date = signupCredentials.birthday;
+        const date = new Date(signupCredentials.birthday);
         date.setMonth(target.value);
         setSignupCredentials({ ...signupCredentials, birthday: date });
     };
     const setDate = ({ target }) => {
-        const date = signupCredentials.birthday;
+        const date = new Date(signupCredentials.birthday);
         date.setDate(target.value);
         setSignupCredentials({ ...signupCredentials, birthday: date });
     };
@@ -125,6 +132,7 @@ const SignupBirthdayDetails = ({
                 pet, or something else
             </OwnBirthday>
             <Button
+                isDisabled={nextDisabled}
                 isLoading={signUpMutation.isLoading}
                 onClick={next}
                 style={{

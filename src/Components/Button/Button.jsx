@@ -4,7 +4,11 @@ import { Container, Content, LoadingContainer } from "./styles";
 
 const Button = ({ style, onClick, children, isDisabled, isLoading }) => {
     return (
-        <Container isDisabled={isDisabled} style={style} onClick={onClick}>
+        <Container
+            isDisabled={isDisabled}
+            style={style}
+            onClick={isDisabled ? () => {} : onClick}
+        >
             <Content isLoading={isLoading}>{children}</Content>
             {isLoading && (
                 <LoadingContainer>

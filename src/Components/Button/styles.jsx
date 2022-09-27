@@ -15,6 +15,7 @@ export const Container = styled.button`
         var(--d69),
         ${({ isDisabled }) => (isDisabled ? "0.3" : "1")}
     );
+    ${({ isDisabled }) => isDisabled && "cursor: default;"}
 `;
 
 export const Content = styled.div`
