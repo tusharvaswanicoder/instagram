@@ -41,7 +41,6 @@ const SignupBirthdayDetails = ({
             0
         ).getDate();
     const allDates = useMemo(() => {
-        console.log("allDates executed!");
         const dateOptions = [];
         for (
             let day = 1;
@@ -57,7 +56,6 @@ const SignupBirthdayDetails = ({
         return dateOptions;
     }, [month]);
     const yearOptions = useMemo(() => {
-        console.log("yearOptions executed!");
         const yearOptions = [];
         for (let year = 1920; year <= new Date().getFullYear(); year++) {
             yearOptions.push(

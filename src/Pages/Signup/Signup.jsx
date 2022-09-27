@@ -21,7 +21,6 @@ const Signup = () => {
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
     const signUpMutation = useMutation(signUp);
-    console.log(signUpMutation);
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}
