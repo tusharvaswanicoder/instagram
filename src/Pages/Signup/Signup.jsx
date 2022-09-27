@@ -20,7 +20,11 @@ const Signup = () => {
     });
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
-    const signUpMutation = useMutation(signUp);
+    const signUpMutation = useMutation(signUp, {
+        onSuccess: () => {
+            setActiveStep(2);
+        },
+    });
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}
@@ -36,7 +40,6 @@ const Signup = () => {
             signUpMutation={signUpMutation}
             next={async () => {
                 signUpMutation.mutate(signupCredentials);
-                // setActiveStep(2);
             }}
         />,
         <EmailConfirmation />,
