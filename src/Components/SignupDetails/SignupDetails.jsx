@@ -59,8 +59,12 @@ const SignupDetails = ({
             }));
     };
     const formValidated = () => {
-        for (let field in signupCredsErrors)
-            if (signupCredsErrors[field]) return true;
+        for (let field of ["email", "userName", "password"])
+            if (
+                typeof signupCredsErrors[field] === "undefined" ||
+                signupCredsErrors[field]
+            )
+                return true;
         for (let field in signupCredentials)
             if (!signupCredentials[field]) return true;
     };
