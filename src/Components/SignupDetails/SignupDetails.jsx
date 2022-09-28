@@ -18,33 +18,35 @@ const SignupDetails = ({
     signupCredsErrors,
     setSignupCredsErrors,
 }) => {
-    const validateEmailUsername = useCallback(async (what, value) => {
-        const isValid =
-            what === "email"
-                ? emailValidateSchema.validate(value)
-                : userNameValidateSchema.validate(value);
-        if (isValid.error)
-            setSignupCredsErrors((prev) => ({
-                ...prev,
-                [what]: true,
-            }));
-        else {
-            const res = await fetch(
-                `${
-                    process.env.REACT_APP_API_URL
-                }/users/validate${what.toLowerCase()}?${what}=${value}`
-            );
-            const { valid } = await res.json();
-            setSignupCredsErrors((prev) => ({
-                ...prev,
-                [what]: !valid,
-            }));
-        }
-    }, []);
-    const validateEmailUsernameDebounced = useMemo(
-        () => debounce(validateEmailUsername, 200),
-        []
+    const validateEmailUsername = useCallback(
+        async (what, value) => {
+            const isValid =
+                what === "email"
+                    ? emailValidateSchema.validate(value)
+                    : userNameValidateSchema.validate(value);
+            if (isValid.error)
+                setSignupCredsErrors((prev) => ({
+                    ...prev,
+                    [what]: true,
+                }));
+            else {
+                const res = await fetch(
+                    `${
+                        process.env.REACT_APP_API_URL
+                    }/users/validate${what.toLowerCase()}?${what}=${value}`
+                );
+                const { valid } = await res.json();
+                setSignupCredsErrors((prev) => ({
+                    ...prev,
+                    [what]: !valid,
+                }));
+            }
+        },
+        [setSignupCredsErrors]
     );
+    const validateEmailUsernameDebounced = useMemo(() => {
+        return debounce(validateEmailUsername, 200);
+    }, [validateEmailUsername]);
     const validatePassword = (value) => {
         const isValid = passwordValidateSchema.validate(value);
         if (isValid.error)

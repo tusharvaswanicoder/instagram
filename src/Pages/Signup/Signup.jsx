@@ -3,10 +3,6 @@ import { Container } from "../Login/styles";
 import SignupDetails from "../../Components/SignupDetails/SignupDetails";
 import SignupBirthdayDetails from "../../Components/SignupBirthdayDetails/SignupBirthdayDetails";
 import EmailConfirmation from "../../Components/EmailConfirmation/EmailConfirmation";
-import {
-    passwordValidateSchema,
-    userNameValidateSchema,
-} from "./validationSchema";
 import { useMutation } from "react-query";
 import { signUp } from "../../Api/usersApi";
 
