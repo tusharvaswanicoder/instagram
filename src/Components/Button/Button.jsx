@@ -7,7 +7,14 @@ const Button = ({ style, onClick, children, isDisabled, isLoading }) => {
         <Container
             isDisabled={isDisabled}
             style={style}
-            onClick={isDisabled ? () => {} : onClick}
+            onClick={
+                isDisabled || !onClick
+                    ? () => {}
+                    : (e) => {
+                          e.preventDefault();
+                          onClick();
+                      }
+            }
         >
             <Content isLoading={isLoading}>{children}</Content>
             {isLoading && (

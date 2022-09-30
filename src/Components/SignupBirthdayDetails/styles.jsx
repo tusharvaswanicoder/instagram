@@ -109,7 +109,7 @@ export const Link = styled.button`
     }
 `;
 
-export const NetworkError = styled.div`
+export const Error = styled.div`
     margin: 1.4rem 0px;
     font-size: 14px;
     line-height: 18px;

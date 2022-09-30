@@ -4,19 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { userInfo } from "../Api/users.api";
 
 export const AuthContext = createContext(null);
-export const AuthTokenDispatchContext = createContext(null);
 
 const AuthContextProvider = ({ children }) => {
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const [authToken, setAuthToken] = useState(
-        JSON.parse(localStorage.getItem("authToken"))
-    );
     const fetchUserInfo = () => {
         setLoading(true);
-        userInfo(setAuthToken).then(({ data }) => {
+        userInfo().then(({ data }) => {
             setUserDetails(data);
             setLoading(false);
         });
@@ -25,14 +21,22 @@ const AuthContextProvider = ({ children }) => {
         if (!loading) {
             if (userDetails) {
                 if (userDetails.email_verified) {
+                    navigate("/");
                 } else {
                     navigate("/accounts/emailsignup");
                 }
             } else {
+                if (
+                    !pathname.includes("login") &&
+                    !pathname.includes("emailsignup")
+                ) {
+                    navigate("/accounts/login");
+                }
             }
         }
     }, [loading, userDetails, pathname, navigate]);
     useEffect(() => {
+        const authToken = JSON.parse(localStorage.getItem("authToken"));
         if (!authToken) {
             localStorage.removeItem("authToken");
             setUserDetails(null);
@@ -41,12 +45,10 @@ const AuthContextProvider = ({ children }) => {
         }
         localStorage.setItem("authToken", JSON.stringify(authToken));
         fetchUserInfo();
-    }, [authToken]);
+    }, []);
     return (
         <AuthContext.Provider value={[userDetails, loading, fetchUserInfo]}>
-            <AuthTokenDispatchContext.Provider value={setAuthToken}>
-                {children}
-            </AuthTokenDispatchContext.Provider>
+            {children}
         </AuthContext.Provider>
     );
 };

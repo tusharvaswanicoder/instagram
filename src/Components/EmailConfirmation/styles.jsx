@@ -49,3 +49,24 @@ export const Input = styled.input`
     padding: 0.4rem 1.2rem;
     width: 100%;
 `;
+
+export const EmailResentContainer = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #262626;
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 18px;
+    z-index: 1;
+    text-align: left;
+`;
+
+export const Error = styled.div`
+    margin: 1.4rem 0px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(var(--ig-error-or-destructive));
+`;

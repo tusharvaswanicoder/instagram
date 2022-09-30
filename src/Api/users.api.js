@@ -28,7 +28,13 @@ authenticatedUsers.interceptors.response.use(
         if (error.response.status === 401 && !error.config.retry) {
             error.config.retry = true;
             const accessToken = await refreshAccessToken();
-            error.config.setAuthToken((prev) => ({ ...prev, accessToken }));
+            localStorage.setItem(
+                "authToken",
+                JSON.stringify({
+                    ...JSON.parse(localStorage.getItem("authToken")),
+                    accessToken,
+                })
+            );
             return authenticatedUsers(error.config);
         }
         return Promise.reject(error);
@@ -39,9 +45,21 @@ export const signUp = async (userData) => {
     return await users.post("/", userData);
 };
 
-export const userInfo = async (setAuthToken) => {
-    return await authenticatedUsers.get("/info", {
-        setAuthToken,
+export const login = async (loginData) => {
+    return await users.post("/login", loginData);
+};
+
+export const userInfo = async () => {
+    return await authenticatedUsers.get("/info");
+};
+
+export const resendVerificationEmail = async () => {
+    return await authenticatedUsers.post("/resendverificationemail");
+};
+
+export const verifyAccount = async (confirmationCode) => {
+    return await authenticatedUsers.patch("/verifyaccount", {
+        confirmationCode,
     });
 };
 

@@ -12,7 +12,7 @@ import {
     Link,
     MonthDayYear,
     MonthDayYearBirthdayRequired,
-    NetworkError,
+    Error,
     OwnBirthday,
     Select,
     SelectContainer,
@@ -145,10 +145,10 @@ const SignupBirthdayDetails = ({
             <Link onClick={prev}>Go Back</Link>
             {signUpMutation.error &&
                 signUpMutation.error.code === "ERR_NETWORK" && (
-                    <NetworkError>
+                    <Error>
                         We couldn't connect to Instagram. Make sure you're
                         connected to the internet and try again.
-                    </NetworkError>
+                    </Error>
                 )}
         </Container>
     );
