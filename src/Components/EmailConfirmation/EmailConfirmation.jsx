@@ -1,4 +1,5 @@
 import React from "react";
+import useAuthState from "../../Hooks/useAuthState";
 import Button from "../Button/Button";
 import {
     Desc,
@@ -11,13 +12,14 @@ import {
 } from "./styles";
 
 const EmailConfirmation = () => {
+    const [userDetails] = useAuthState();
     return (
         <>
             <IconTitleDesc>
                 <Icon />
                 <Title>Enter Confirmation Code</Title>
                 <Desc>
-                    Enter the confirmation code we sent to asasasas@gmail.com.{" "}
+                    Enter the confirmation code we sent to {userDetails.email}.{" "}
                     <ResendButton>Resend Code.</ResendButton>
                 </Desc>
             </IconTitleDesc>

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../Login/styles";
 import SignupDetails from "../../Components/SignupDetails/SignupDetails";
 import SignupBirthdayDetails from "../../Components/SignupBirthdayDetails/SignupBirthdayDetails";
 import EmailConfirmation from "../../Components/EmailConfirmation/EmailConfirmation";
 import { useMutation } from "react-query";
-import { signUp } from "../../Api/usersApi";
+import { signUp } from "../../Api/users.api";
+import { AuthTokenDispatchContext } from "../../Context/AuthContext";
+import useAuthState from "../../Hooks/useAuthState";
 
 const Signup = () => {
+    // const [userDetails, loading] = useAuthState();
     const [signupCredentials, setSignupCredentials] = useState({
         email: "",
         fullName: "",
@@ -16,11 +19,18 @@ const Signup = () => {
     });
     const [signupCredsErrors, setSignupCredsErrors] = useState({});
     const [activeStep, setActiveStep] = useState(0);
+    const setAuthToken = useContext(AuthTokenDispatchContext);
     const signUpMutation = useMutation(signUp, {
-        onSuccess: () => {
-            setActiveStep(2);
+        onSuccess: ({ data }) => {
+            setAuthToken(data);
         },
     });
+    useEffect(() => {
+        document.title = "Sign up • Instagram";
+    }, []);
+    // useEffect(() => {
+    //     if (!loading && userDetails) setActiveStep(2);
+    // }, [loading, userDetails]);
     const stepsComponent = [
         <SignupDetails
             signupCredentials={signupCredentials}
@@ -40,9 +50,7 @@ const Signup = () => {
         />,
         <EmailConfirmation />,
     ];
-    useEffect(() => {
-        document.title = "Sign up • Instagram";
-    }, []);
+    // if (loading) return null;
     return <Container>{stepsComponent[activeStep]}</Container>;
 };
 

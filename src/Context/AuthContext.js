@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { userInfo } from "../Api/users.api";
 
 export const AuthContext = createContext(null);
 export const AuthTokenDispatchContext = createContext(null);
@@ -11,19 +12,23 @@ const AuthContextProvider = ({ children }) => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [authToken, setAuthToken] = useState(
-        localStorage.getItem("authToken")
+        JSON.parse(localStorage.getItem("authToken"))
     );
+    const fetchUserInfo = () => {
+        setLoading(true);
+        userInfo(setAuthToken).then(({ data }) => {
+            setUserDetails(data);
+            setLoading(false);
+        });
+    };
     useEffect(() => {
         if (!loading) {
             if (userDetails) {
-                if (
-                    pathname === "/" ||
-                    pathname === "/login" ||
-                    pathname === "/signup"
-                )
-                    navigate("/dashboard/");
+                if (userDetails.email_verified) {
+                } else {
+                    navigate("/accounts/emailsignup");
+                }
             } else {
-                if (pathname.startsWith("/dashboard")) navigate("/");
             }
         }
     }, [loading, userDetails, pathname, navigate]);
@@ -34,29 +39,11 @@ const AuthContextProvider = ({ children }) => {
             setLoading(false);
             return;
         }
-        localStorage.setItem("authToken", authToken);
-        const getUserDetails = async () => {
-            setLoading(true);
-            const resp = await fetch(
-                `${process.env.REACT_APP_API_URL}users/userinfo`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-            if (resp.status === 401) {
-                setAuthToken(null);
-                return;
-            }
-            const data = await resp.json();
-            setUserDetails(data);
-            setLoading(false);
-        };
-        getUserDetails();
+        localStorage.setItem("authToken", JSON.stringify(authToken));
+        fetchUserInfo();
     }, [authToken]);
     return (
-        <AuthContext.Provider value={[userDetails, loading]}>
+        <AuthContext.Provider value={[userDetails, loading, fetchUserInfo]}>
             <AuthTokenDispatchContext.Provider value={setAuthToken}>
                 {children}
             </AuthTokenDispatchContext.Provider>
