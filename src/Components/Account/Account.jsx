@@ -1,13 +1,16 @@
 import React from "react";
+import useAuthState from "../../Hooks/useAuthState";
 import { Container, Name, NameUserName, ProfilePic, UserName } from "./styles";
 
 const Account = () => {
+    const [userDetails, loading] = useAuthState();
+    if (loading) return null;
     return (
         <Container>
-            <ProfilePic />
+            <ProfilePic src={userDetails.profile_pic} />
             <NameUserName>
-                <UserName>tushar.coder</UserName>
-                <Name>Tushar Vaswani</Name>
+                <UserName>{userDetails.user_name}</UserName>
+                <Name>{userDetails.full_name}</Name>
             </NameUserName>
         </Container>
     );

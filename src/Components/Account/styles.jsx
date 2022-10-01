@@ -7,10 +7,12 @@ export const Container = styled.div`
     gap: 1.2rem;
 `;
 
+const defaultProfilePicLink = `${process.env.PUBLIC_URL}/assets/default-profile.jpg`;
+
 export const ProfilePic = styled.div`
     width: 5.6rem;
     height: 5.6rem;
-    background: url("${process.env.PUBLIC_URL}/assets/default-profile.jpg");
+    background: url(${({ src }) => (src ? src : defaultProfilePicLink)});
     background-size: cover;
 `;
 

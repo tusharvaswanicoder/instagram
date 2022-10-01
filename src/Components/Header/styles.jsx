@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.header`
     position: fixed;
     display: block;
     width: 100%;
@@ -9,6 +9,7 @@ export const Container = styled.div`
     background: rgb(var(--ig-primary-background));
     border-bottom: 1px solid rgb(var(--ig-elevated-separator));
     height: 6rem;
+    z-index: 4;
 `;
 
 export const Content = styled.div`
