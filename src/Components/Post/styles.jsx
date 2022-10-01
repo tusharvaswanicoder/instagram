@@ -1,11 +1,49 @@
 import styled from "styled-components";
 
+const defaultProfilePicLink = `${process.env.PUBLIC_URL}/assets/default-profile.jpg`;
+
 export const Container = styled.div`
     border-radius: 8px;
     margin-bottom: 12px;
     background-color: rgb(var(--ig-primary-background));
     border: 1px solid rgb(var(--ig-elevated-separator));
+    position: relative;
 `;
+
+export const Like = styled.div`
+    display: flex;
+    padding: 0.8rem 1.6rem;
+    gap: 1.2rem;
+    align-items: center;
+`;
+
+export const LikePersonProfilePic = styled.div`
+    width: 4.4rem;
+    height: 4.4rem;
+    background: url(${({ src }) => (src ? src : defaultProfilePicLink)});
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+`;
+
+export const LikePersonUserNameAndName = styled.div`
+    flex: 1;
+    font-size: 1.4rem;
+    line-height: 18px;
+`;
+
+export const LikePersonUserName = styled.button`
+    color: rgb(var(--ig-primary-text));
+    font-weight: 600;
+`;
+
+export const LikePersonName = styled.div`
+    color: rgb(var(--ig-secondary-text));
+    font-weight: 400;
+    margin-top: 0.2rem;
+`;
+
+// export const LikePersonFollow = styled.div``;
 
 export const UserOptions = styled.div`
     display: flex;
@@ -62,6 +100,17 @@ export const NumOfLikes = styled.button`
     font-weight: 600;
     font-size: 1.4rem;
     line-height: 18px;
+`;
+
+export const NumOfLikesFollowedPersonLike = styled.div`
+    color: rgb(var(--ig-primary-text));
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 18px;
+    padding-bottom: 0.8rem;
+    & button {
+        font-weight: 600;
+    }
 `;
 
 export const AuthorCaption = styled.div`
@@ -122,7 +171,7 @@ export const AddCommentTextArea = styled.textarea`
             --ig-${({ textInside }) => (textInside ? "primary" : "secondary")}-text
         )
     );
-    /* color: rgb(var(--ig-primary-text)); */
+    height: 1.8rem;
     flex-grow: 1;
     max-height: 8rem;
     outline: none;

@@ -15,6 +15,7 @@ const Posts = () => {
                     "https://i.ibb.co/BwMN3sp/309914231-858282178914365-135185440008970980-n.jpg",
                 ]}
                 likes={{
+                    followedPersonLike: "stor_matrix",
                     count: 138,
                 }}
                 caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam blandit ac lorem quis efficitur. Nullam sed mauris orci. Ut sollicitudin odio quis malesuada eleifend. Curabitur posuere ornare ex, ac facilisis nisi dictum ac. Donec non erat ligula. Donec non dolor sit amet magna tristique commodo. Nulla sodales sem ac leo ullamcorper, sit amet ultricies metus pharetra. Donec iaculis tellus leo, eget tristique tortor dictum nec. Mauris blandit justo id lacus ornare luctus. Duis scelerisque nisl at convallis vehicula. Proin tortor mauris, dignissim sed tellus non, lacinia vulputate enim. Donec quis vulputate tortor. Aliquam ultricies egestas dui, et tincidunt arcu. Vivamus."

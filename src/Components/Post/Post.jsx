@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import postActions from "../../data/postActions";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
 import ProfilePicGradientBorder from "../ProfilePicGradientBorder/ProfilePicGradientBorder";
 import {
     AddComment,
@@ -11,8 +13,14 @@ import {
     Container,
     Content,
     EmojiPicker,
+    Like,
+    LikePersonName,
+    LikePersonProfilePic,
+    LikePersonUserName,
+    LikePersonUserNameAndName,
     More,
     NumOfLikes,
+    NumOfLikesFollowedPersonLike,
     Options,
     PostAction,
     PostActions,
@@ -30,44 +38,41 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
             return `${caption.substr(0, 30)}...`;
         return caption;
     };
-    const oneChar = useRef();
-    const commentTextArea = useRef();
     const [caption, setCaption] = useState(() => getCaption(orginalCaption));
     const [comment, setComment] = useState();
-    const [numOfLines, setNumOfLines] = useState(1);
-    // const oneCharValue = oneChar.current;
-    // const singleCharSize = useMemo(() => {
-    //     if (oneCharValue) return oneCharValue.offsetWidth;
-    // }, [oneCharValue]);
+    const [showLikesModal, setShowLikesModal] = useState(false);
     const showMore = () => {
         setCaption(orginalCaption);
     };
-    useEffect(() => {
-        if (typeof comment === "string") {
-            const numOfLinesWithoutCeil =
-                comment.length /
-                Math.floor(
-                    commentTextArea.current.clientWidth /
-                        oneChar.current.offsetWidth
-                );
-            const numOfLines = Number.isInteger(numOfLinesWithoutCeil)
-                ? numOfLinesWithoutCeil + 1
-                : Math.ceil(numOfLinesWithoutCeil);
-            setNumOfLines(numOfLines ? numOfLines : 1);
-        }
-    }, [comment]);
     return (
         <Container>
-            <span
-                ref={oneChar}
-                style={{
-                    position: "absolute",
-                    fontSize: "1.4rem",
-                    visibility: "none",
-                }}
-            >
-                a
-            </span>
+            {showLikesModal && (
+                <Modal
+                    heading="Likes"
+                    style={{
+                        maxWidth: "40rem",
+                        maxHeight: "40rem",
+                    }}
+                    closeModal={() => setShowLikesModal(false)}
+                >
+                    {[...Array(40)]
+                        .map((e) => ~~(Math.random() * 40))
+                        .map((item, index) => (
+                            <Like key={index}>
+                                <LikePersonProfilePic src={user.profilePic} />
+                                <LikePersonUserNameAndName>
+                                    <LikePersonUserName>
+                                        leviscaa
+                                    </LikePersonUserName>
+                                    <LikePersonName>Leviscaa</LikePersonName>
+                                </LikePersonUserNameAndName>
+                                <Button style={{ width: "9.6rem" }}>
+                                    Follow
+                                </Button>
+                            </Like>
+                        ))}
+                </Modal>
+            )}
             <UserOptions>
                 <User>
                     <ProfilePicGradientBorder
@@ -90,7 +95,18 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                     <PostAction>{postActions.share}</PostAction>
                     <PostAction>{postActions.bookMark}</PostAction>
                 </PostActions>
-                <NumOfLikes>{likes.count} likes</NumOfLikes>
+                {likes.followedPersonLike ? (
+                    <NumOfLikesFollowedPersonLike>
+                        Liked by <button>{likes.followedPersonLike}</button> and{" "}
+                        <button onClick={() => setShowLikesModal(true)}>
+                            {likes.count - 1} others
+                        </button>
+                    </NumOfLikesFollowedPersonLike>
+                ) : (
+                    <NumOfLikes onClick={() => setShowLikesModal(true)}>
+                        {likes.count} likes
+                    </NumOfLikes>
+                )}
                 <AuthorCaption>
                     <Author>{user.userName}</Author>
                     <Caption>{caption}</Caption>
@@ -116,8 +132,6 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                     </svg>
                 </EmojiPicker>
                 <AddCommentTextArea
-                    ref={commentTextArea}
-                    style={{ height: `${1.8 * numOfLines}rem` }}
                     onChange={(e) => setComment(e.target.value)}
                     value={comment}
                     textInside={Boolean(comment)}
