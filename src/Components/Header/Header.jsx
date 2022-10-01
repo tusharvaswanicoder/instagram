@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Container,
     Content,
@@ -7,6 +7,8 @@ import {
     Logo,
     LogoVariant,
     ProfileButton,
+    ProfileButtonMenu,
+    ProfileButtonMenuLink,
     SearchBox,
     SearchBoxIcon,
     SearchBoxIconPlaceholder,
@@ -18,12 +20,44 @@ import { FiChevronDown } from "react-icons/fi";
 import { IoIosSearch } from "react-icons/io";
 import { NavLink, useLocation } from "react-router-dom";
 import headerLinks from "../../data/headerLinks";
+import profileMenuButtonIcons from "../../data/profileMenuButtonIcons";
 
 const Header = () => {
     const { pathname } = useLocation();
+    const [profileMenuVisible, setProfileMenuVisible] = useState(false);
     const headerClickFunctions = {
         showNewPostModal: () => console.log("showNewPostModal"),
         showActivityFeed: () => console.log("showActivityFeed"),
+    };
+    const profileMenuButtons = [
+        {
+            to: "/",
+            name: "Profile",
+            icon: "profile",
+        },
+        {
+            to: "/",
+            name: "Saved",
+            icon: "saved",
+        },
+        {
+            to: "/",
+            name: "Settings",
+            icon: "settings",
+        },
+        {
+            to: "/",
+            name: "Report a problem",
+            icon: "reportAProblem",
+        },
+    ];
+    const openProfileMenu = (e) => {
+        e.stopPropagation();
+        setProfileMenuVisible(true);
+        document.body.addEventListener("click", () => {
+            setProfileMenuVisible(false);
+            document.body.removeEventListener("click", () => {});
+        });
     };
     return (
         <Container>
@@ -53,7 +87,9 @@ const Header = () => {
                             return to ? (
                                 <NavLink to={to} key={index}>
                                     <HeaderLink>
-                                        {to === pathname ? activeIcon : icon}
+                                        {to === pathname && !profileMenuVisible
+                                            ? activeIcon
+                                            : icon}
                                     </HeaderLink>
                                 </NavLink>
                             ) : (
@@ -61,13 +97,37 @@ const Header = () => {
                                     key={index}
                                     onClick={headerClickFunctions[click]}
                                 >
-                                    {to === pathname ? activeIcon : icon}
+                                    {to === pathname && !profileMenuVisible
+                                        ? activeIcon
+                                        : icon}
                                 </HeaderLink>
                             );
                         }
                     )}
-                    <ProfileButton />
+                    <ProfileButton
+                        profileMenuVisible={profileMenuVisible}
+                        onClick={openProfileMenu}
+                    />
                 </HeaderLinks>
+                {profileMenuVisible && (
+                    <ProfileButtonMenu>
+                        {profileMenuButtons.map(({ to, name, icon }, index) => (
+                            <NavLink to={to} key={index}>
+                                <ProfileButtonMenuLink>
+                                    {profileMenuButtonIcons[icon]}
+                                    {name}
+                                </ProfileButtonMenuLink>
+                            </NavLink>
+                        ))}
+                        <ProfileButtonMenuLink
+                            style={{
+                                borderTop: "1px solid rgb(var(--ig-separator))",
+                            }}
+                        >
+                            Logout
+                        </ProfileButtonMenuLink>
+                    </ProfileButtonMenu>
+                )}
             </Content>
         </Container>
     );

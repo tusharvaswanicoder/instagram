@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    position: fixed;
+    display: block;
+    width: 100%;
+    top: 0px;
+    left: 0px;
     background: rgb(var(--ig-primary-background));
     border-bottom: 1px solid rgb(var(--ig-elevated-separator));
     height: 6rem;
@@ -13,6 +18,7 @@ export const Content = styled.div`
     margin: auto;
     padding: 0 2rem;
     height: 100%;
+    position: relative;
 `;
 
 export const LogoVariant = styled.div`
@@ -95,8 +101,56 @@ export const ProfileButton = styled.div`
     cursor: pointer;
     background: url("${process.env.PUBLIC_URL}/assets/default-profile.jpg");
     background-size: cover;
-    width: 24px;
-    height: 24px;
-    border: 1px solid rgb(var(--ig-primary-background));
+    width: 2.8rem;
+    height: 2.8rem;
+    border: 1px solid
+        rgb(
+            var(
+                --ig-primary-${({ profileMenuVisible }) => (profileMenuVisible ? "text" : "background")}
+            )
+        );
     border-radius: 50%;
+    position: relative;
+`;
+
+export const ProfileButtonMenu = styled.div`
+    background: rgb(var(--ig-banner-background));
+    border-radius: 0.6rem;
+    position: absolute;
+    padding: 0.4rem 0;
+    top: calc(100% - 0.2rem);
+    right: 0px;
+    filter: drop-shadow(0 0 5px rgba(var(--web-always-black), 0.0975));
+    display: flex;
+    flex-direction: column;
+    width: 23rem;
+    opacity: 1;
+    transition: opacity 75ms linear, transform 38ms ease-out;
+    transform: translateY(-10px);
+    transform: translateY(0);
+    &:after {
+        content: "";
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: -1rem;
+        right: 2.2rem;
+        border-bottom: 1rem solid rgb(var(--ig-banner-background));
+        border-left: 1rem solid transparent;
+        border-right: 1rem solid transparent;
+    }
+`;
+
+export const ProfileButtonMenuLink = styled.div`
+    padding: 1rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 18px;
+    cursor: pointer;
+    &:hover {
+        background: rgb(var(--ig-secondary-background));
+    }
 `;
