@@ -39,10 +39,18 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
             return `${caption.substr(0, 30)}...`;
         return caption;
     };
+    const [liked, setLiked] = useState(false);
     const [caption, setCaption] = useState(() => getCaption(orginalCaption));
     const [comment, setComment] = useState();
     const [showLikesModal, setShowLikesModal] = useState(false);
     const [showPostOptions, setShowPostOptions] = useState(false);
+    const likeUnlike = ({ target }) => {
+        setLiked((prev) => !prev);
+        target.classList.add("scale-up");
+        setTimeout(() => {
+            target.classList.remove("scale-up");
+        }, 300);
+    };
     const postOptions = [
         {
             name: "Report",
@@ -152,7 +160,9 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
             <img style={{ width: "100%" }} src={images[0]} alt="Hello" />
             <Content>
                 <PostActions>
-                    <PostAction>{postActions.like}</PostAction>
+                    <PostAction onClick={likeUnlike}>
+                        {liked ? postActions.unLike : postActions.like}
+                    </PostAction>
                     <PostAction>{postActions.comment}</PostAction>
                     <PostAction>{postActions.share}</PostAction>
                     <PostAction>{postActions.bookMark}</PostAction>

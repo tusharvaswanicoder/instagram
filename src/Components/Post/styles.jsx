@@ -98,6 +98,9 @@ export const PostAction = styled.button`
     &:hover {
         opacity: 0.5;
     }
+    &:first-child {
+        transition: 0.2s opacity;
+    }
     &:last-child {
         margin-left: auto;
     }
