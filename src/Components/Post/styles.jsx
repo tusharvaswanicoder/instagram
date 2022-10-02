@@ -81,6 +81,70 @@ export const Options = styled.button`
     cursor: pointer;
 `;
 
+export const Images = styled.div`
+    position: relative;
+`;
+
+export const ImagesTrackWrapper = styled.div`
+    overflow: hidden;
+`;
+
+export const ImagesTrack = styled.div`
+    display: flex;
+    transition: transform 300ms cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+`;
+
+export const Image = styled.img`
+    width: 100%;
+    flex-shrink: 0;
+`;
+
+export const SliderDots = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 1.5rem 0;
+    position: absolute;
+    bottom: -3.6rem;
+    width: 100%;
+`;
+
+export const SliderDot = styled.div`
+    border-radius: 50%;
+    width: 0.6rem;
+    height: 0.6rem;
+    transition: all 0.2s ease-in-out;
+    background: rgb(
+        var(
+            --${({ isActive }) => (isActive ? "ig-primary-button" : "post-step-indicator")}
+        )
+    );
+`;
+
+const forwardBackwardCommon = `
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 30px;
+    width: 30px;
+    background-image: var(--all-icons2);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    z-index: 1;
+`;
+
+export const Forward = styled.div`
+    ${forwardBackwardCommon}
+    background-position: -162px -98px;
+    right: 0.8rem;
+`;
+
+export const Backward = styled.div`
+    ${forwardBackwardCommon}
+    background-position: -130px -98px;
+    left: 0.8rem;
+`;
+
 export const Content = styled.div`
     padding: 0 1.2rem;
 `;

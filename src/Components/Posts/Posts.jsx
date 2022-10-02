@@ -12,7 +12,18 @@ const Posts = () => {
                     userName: "tusharhecker1234",
                 }}
                 images={[
-                    "https://i.ibb.co/BwMN3sp/309914231-858282178914365-135185440008970980-n.jpg",
+                    {
+                        url: "https://i.ibb.co/K04nQr8/309429171-657810332620744-3495850472449453983-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
+                    {
+                        url: "https://i.ibb.co/9nrJF7F/309681926-1547705542326583-6302973880218539062-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
+                    {
+                        url: "https://i.ibb.co/m44h441/309570132-485878520084541-7594561304346309946-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
                 ]}
                 likes={{
                     followedPersonLike: "stor_matrix",
@@ -27,7 +38,14 @@ const Posts = () => {
                     userName: "tusharhecker1234",
                 }}
                 images={[
-                    "https://i.ibb.co/BwMN3sp/309914231-858282178914365-135185440008970980-n.jpg",
+                    {
+                        url: "https://i.ibb.co/K04nQr8/309429171-657810332620744-3495850472449453983-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
+                    {
+                        url: "https://i.ibb.co/9nrJF7F/309681926-1547705542326583-6302973880218539062-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
                 ]}
                 likes={{
                     followedPersonLike: "stor_matrix",
@@ -42,7 +60,10 @@ const Posts = () => {
                     userName: "tusharhecker1234",
                 }}
                 images={[
-                    "https://i.ibb.co/BwMN3sp/309914231-858282178914365-135185440008970980-n.jpg",
+                    {
+                        url: "https://i.ibb.co/K04nQr8/309429171-657810332620744-3495850472449453983-n.jpg",
+                        alt: "Image by tusharhecker1234",
+                    },
                 ]}
                 likes={{
                     followedPersonLike: "stor_matrix",

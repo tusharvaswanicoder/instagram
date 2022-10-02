@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import postActions from "../../data/postActions";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import ProfilePicGradientBorder from "../ProfilePicGradientBorder/ProfilePicGradientBorder";
+import debounce from "../../Helpers/debounce.js";
 import {
     AddComment,
     AddCommentTextArea,
     Author,
     AuthorCaption,
+    Backward,
     Caption,
     Container,
     Content,
     EmojiPicker,
+    Forward,
+    Image,
+    Images,
+    ImagesTrack,
+    ImagesTrackWrapper,
     Like,
     LikePersonName,
     LikePersonProfilePic,
@@ -27,6 +34,8 @@ import {
     PostActions,
     PostComment,
     PostedAt,
+    SliderDot,
+    SliderDots,
     User,
     UserName,
     UserOptions,
@@ -39,11 +48,23 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
             return `${caption.substr(0, 30)}...`;
         return caption;
     };
+    const imagesContainer = useRef();
     const [liked, setLiked] = useState(false);
     const [caption, setCaption] = useState(() => getCaption(orginalCaption));
     const [comment, setComment] = useState();
     const [showLikesModal, setShowLikesModal] = useState(false);
     const [showPostOptions, setShowPostOptions] = useState(false);
+    const [activeSlide, setActiveSlide] = useState(0);
+    const [imagesContainerWidth, setImagesContainerWidth] = useState();
+    useEffect(() => {
+        const onResize = () => {
+            setImagesContainerWidth(imagesContainer.current.offsetWidth);
+        };
+        onResize();
+        window.addEventListener("resize", debounce(onResize, 500));
+        return () =>
+            window.removeEventListener("resize", debounce(onResize, 500));
+    }, []);
     const likeUnlike = ({ target }) => {
         setLiked((prev) => !prev);
         target.classList.add("scale-up");
@@ -157,7 +178,50 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                     <BiDotsHorizontalRounded fontSize={24} />
                 </Options>
             </UserOptions>
-            <img style={{ width: "100%" }} src={images[0]} alt="Hello" />
+            <Images ref={imagesContainer}>
+                {activeSlide !== 0 && (
+                    <Backward
+                        onClick={() =>
+                            setActiveSlide((activeSlide) => activeSlide - 1)
+                        }
+                    />
+                )}
+                {activeSlide !== images.length - 1 && (
+                    <Forward
+                        onClick={() =>
+                            setActiveSlide((activeSlide) => activeSlide + 1)
+                        }
+                    />
+                )}
+                <ImagesTrackWrapper>
+                    <ImagesTrack
+                        style={{
+                            transform: `translateX(-${
+                                activeSlide * imagesContainerWidth
+                            }px)`,
+                        }}
+                    >
+                        {images.map(({ alt, url }, index) => (
+                            <Image
+                                draggable={false}
+                                key={index}
+                                src={url}
+                                alt={alt}
+                            />
+                        ))}
+                    </ImagesTrack>
+                </ImagesTrackWrapper>
+                {images.length !== 1 && (
+                    <SliderDots>
+                        {images.map((image, index) => (
+                            <SliderDot
+                                key={index}
+                                isActive={index === activeSlide}
+                            />
+                        ))}
+                    </SliderDots>
+                )}
+            </Images>
             <Content>
                 <PostActions>
                     <PostAction onClick={likeUnlike}>
