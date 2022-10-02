@@ -21,6 +21,7 @@ import {
     More,
     NumOfLikes,
     NumOfLikesFollowedPersonLike,
+    Option,
     Options,
     PostAction,
     PostActions,
@@ -41,11 +42,72 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
     const [caption, setCaption] = useState(() => getCaption(orginalCaption));
     const [comment, setComment] = useState();
     const [showLikesModal, setShowLikesModal] = useState(false);
+    const [showPostOptions, setShowPostOptions] = useState(false);
+    const postOptions = [
+        {
+            name: "Report",
+            style: {
+                color: "rgb(var(--ig-error-or-destructive))",
+                fontWeight: 700,
+            },
+            onClick: () => {},
+        },
+        {
+            name: "Unfollow",
+            style: {
+                color: "rgb(var(--ig-error-or-destructive))",
+                fontWeight: 700,
+            },
+            onClick: () => {},
+        },
+        {
+            name: "Add to favourites",
+            onClick: () => {},
+        },
+        {
+            name: "Hide",
+            onClick: () => {},
+        },
+        {
+            name: "Go to post",
+            onClick: () => {},
+        },
+        {
+            name: "Share to...",
+            onClick: () => {},
+        },
+        {
+            name: "Copy link",
+            onClick: () => {},
+        },
+        {
+            name: "Embed",
+            onClick: () => {},
+        },
+        {
+            name: "Cancel",
+            onClick: () => setShowPostOptions(false),
+        },
+    ];
     const showMore = () => {
         setCaption(orginalCaption);
     };
     return (
         <Container>
+            {showPostOptions && (
+                <Modal
+                    closeModal={() => setShowPostOptions(false)}
+                    style={{
+                        maxWidth: "40rem",
+                    }}
+                >
+                    {postOptions.map(({ name, style, onClick }) => (
+                        <Option style={style} onClick={onClick}>
+                            {name}
+                        </Option>
+                    ))}
+                </Modal>
+            )}
             {showLikesModal && (
                 <Modal
                     heading="Likes"
@@ -83,7 +145,7 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                     />
                     <UserName>{user.userName}</UserName>
                 </User>
-                <Options>
+                <Options onClick={() => setShowPostOptions(true)}>
                     <BiDotsHorizontalRounded fontSize={24} />
                 </Options>
             </UserOptions>
@@ -137,7 +199,7 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                     textInside={Boolean(comment)}
                     placeholder="Add a comment..."
                 />
-                <PostComment>Post</PostComment>
+                <PostComment isDisabled={!comment}>Post</PostComment>
             </AddComment>
         </Container>
     );

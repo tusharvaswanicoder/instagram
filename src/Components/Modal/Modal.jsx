@@ -14,12 +14,14 @@ const Modal = ({ style, heading, children, closeModal }) => {
     return (
         <Wrapper onClick={close}>
             <Container style={style}>
-                <Heading>
-                    {heading}
-                    <CloseButton onClick={close}>
-                        <IoIosClose fontSize={40} />
-                    </CloseButton>
-                </Heading>
+                {heading && (
+                    <Heading>
+                        {heading}
+                        <CloseButton onClick={close}>
+                            <IoIosClose fontSize={40} />
+                        </CloseButton>
+                    </Heading>
+                )}
                 <Content>{children}</Content>
             </Container>
         </Wrapper>

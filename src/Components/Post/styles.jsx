@@ -10,6 +10,17 @@ export const Container = styled.div`
     position: relative;
 `;
 
+export const Option = styled.button`
+    display: block;
+    width: 100%;
+    padding: 1.4rem 0.8rem;
+    font-size: 1.4rem;
+    border-bottom: 1px solid rgb(var(--ig-elevated-separator));
+    &:last-child {
+        border-bottom: none;
+    }
+`;
+
 export const Like = styled.div`
     display: flex;
     padding: 0.8rem 1.6rem;
@@ -42,8 +53,6 @@ export const LikePersonName = styled.div`
     font-weight: 400;
     margin-top: 0.2rem;
 `;
-
-// export const LikePersonFollow = styled.div``;
 
 export const UserOptions = styled.div`
     display: flex;
@@ -188,9 +197,13 @@ export const EmojiPicker = styled.div`
 `;
 
 export const PostComment = styled.button`
+    ${({ isDisabled }) => (isDisabled ? "opacity: 0.3;" : "")}
     color: rgb(var(--ig-primary-button));
     font-size: 1.4rem;
     font-weight: 600;
     line-height: 18px;
     cursor: pointer;
+    &:active {
+        opacity: 0.7;
+    }
 `;
