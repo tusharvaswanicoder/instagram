@@ -6,6 +6,12 @@ export const Container = styled.div`
     justify-content: center;
     padding: 2.4rem;
     height: 100%;
+    ${({ fileBeingDragged }) =>
+        fileBeingDragged
+            ? `
+                 background: rgb(var(--ig-secondary-background))
+              `
+            : ""}
 `;
 
 export const Content = styled.div`

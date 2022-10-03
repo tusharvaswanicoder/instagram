@@ -4,6 +4,7 @@ import { Container, Content, Error, Icon, Title } from "./styles";
 
 const DragAndDropPhotos = ({ setFiles, next }) => {
     const [fileNotSupported, setFileNotSupported] = useState();
+    const [fileBeingDragged, setFileBeingDragged] = useState();
     const dropHandler = (e) => {
         setFileNotSupported(null);
 
@@ -34,8 +35,10 @@ const DragAndDropPhotos = ({ setFiles, next }) => {
     };
     return (
         <Container
-            onDragEnter={(e) => e.preventDefault()}
+            fileBeingDragged={fileBeingDragged}
+            onDragEnter={(e) => setFileBeingDragged(true)}
             onDragOver={(e) => e.preventDefault()}
+            onDragLeave={() => setFileBeingDragged(false)}
             onDrop={dropHandler}
         >
             <Content>
@@ -53,8 +56,8 @@ const DragAndDropPhotos = ({ setFiles, next }) => {
                         </svg>
                     ) : (
                         <svg
-                            color="#262626"
-                            fill="#262626"
+                            color={fileBeingDragged ? "#0095f6" : "#262626"}
+                            fill={fileBeingDragged ? "#0095f6" : "#262626"}
                             height="77"
                             role="img"
                             viewBox="0 0 97.6 77.3"

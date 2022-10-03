@@ -33,6 +33,14 @@ export const Container = styled.div`
     flex-direction: column;
 `;
 
+export const Header = styled.div`
+    border-bottom: 0.1rem solid rgb(var(--ig-elevated-separator));
+    display: flex;
+    align-items: center;
+    padding: 0 1.6rem;
+    gap: 1.2rem;
+`;
+
 export const Heading = styled.div`
     text-align: center;
     color: rgb(var(--ig-primary-text));
@@ -40,7 +48,22 @@ export const Heading = styled.div`
     font-weight: 600;
     line-height: 24px;
     padding: 1rem 0;
-    border-bottom: 0.1rem solid rgb(var(--ig-elevated-separator));
+    flex-grow: 1;
+`;
+
+export const Back = styled.button`
+    transform: rotate(90deg);
+    font-size: 2.5rem;
+`;
+
+export const Next = styled.button`
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgb(var(--ig-primary-button));
+    line-height: 18px;
+    &:active {
+        opacity: 0.7;
+    }
 `;
 
 export const Content = styled.div`

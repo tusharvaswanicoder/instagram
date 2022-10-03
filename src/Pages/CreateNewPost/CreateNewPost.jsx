@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineClose } from "react-icons/md";
+import { BsArrowDown } from "react-icons/bs";
 import DragAndDropPhotos from "../../Components/DragAndDropPhotos/DragAndDropPhotos";
-import { CloseButton, Container, Content, Heading, Wrapper } from "./styles";
+import {
+    Back,
+    CloseButton,
+    Container,
+    Content,
+    Header,
+    Heading,
+    Next,
+    Wrapper,
+} from "./styles";
+import CropImage from "../../Components/CropImage/CropImage";
 
 const CreateNewPost = ({ close }) => {
     const [files, setFiles] = useState([]);
@@ -26,7 +37,7 @@ const CreateNewPost = ({ close }) => {
         },
         {
             title: "Crop",
-            content: "Crop",
+            content: <CropImage files={files} />,
         },
     ];
     return (
@@ -35,7 +46,19 @@ const CreateNewPost = ({ close }) => {
                 <MdOutlineClose />
             </CloseButton>
             <Container>
-                <Heading>Create new post</Heading>
+                <Header>
+                    {activeStep ? (
+                        <Back onClick={() => setActiveStep(activeStep - 1)}>
+                            <BsArrowDown />
+                        </Back>
+                    ) : null}
+                    <Heading>{steps[activeStep].title}</Heading>
+                    {activeStep ? (
+                        <Next onClick={() => setActiveStep(activeStep + 1)}>
+                            Next
+                        </Next>
+                    ) : null}
+                </Header>
                 <Content>{steps[activeStep].content}</Content>
             </Container>
         </Wrapper>
