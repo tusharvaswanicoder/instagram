@@ -21,12 +21,14 @@ import { IoIosSearch } from "react-icons/io";
 import { NavLink, useLocation } from "react-router-dom";
 import headerLinks from "../../data/headerLinks";
 import profileMenuButtonIcons from "../../data/profileMenuButtonIcons";
+import CreateNewPost from "../../Pages/CreateNewPost/CreateNewPost";
 
 const Header = () => {
     const { pathname } = useLocation();
     const [profileMenuVisible, setProfileMenuVisible] = useState(false);
+    const [showCreatePost, setShowCreatePost] = useState(false);
     const headerClickFunctions = {
-        showNewPostModal: () => console.log("showNewPostModal"),
+        showNewPostModal: () => setShowCreatePost(true),
         showActivityFeed: () => console.log("showActivityFeed"),
     };
     const profileMenuButtons = [
@@ -61,6 +63,9 @@ const Header = () => {
     };
     return (
         <Container>
+            {showCreatePost && (
+                <CreateNewPost close={() => setShowCreatePost(false)} />
+            )}
             <Content>
                 <LogoVariant>
                     <NavLink to="/">
@@ -84,22 +89,21 @@ const Header = () => {
                 <HeaderLinks>
                     {headerLinks.map(
                         ({ to, icon, activeIcon, click }, index) => {
+                            const correctIcon =
+                                (to === pathname && !profileMenuVisible) ||
+                                (click === "showNewPostModal" && showCreatePost)
+                                    ? activeIcon
+                                    : icon;
                             return to ? (
                                 <NavLink to={to} key={index}>
-                                    <HeaderLink>
-                                        {to === pathname && !profileMenuVisible
-                                            ? activeIcon
-                                            : icon}
-                                    </HeaderLink>
+                                    <HeaderLink>{correctIcon}</HeaderLink>
                                 </NavLink>
                             ) : (
                                 <HeaderLink
                                     key={index}
                                     onClick={headerClickFunctions[click]}
                                 >
-                                    {to === pathname && !profileMenuVisible
-                                        ? activeIcon
-                                        : icon}
+                                    {correctIcon}
                                 </HeaderLink>
                             );
                         }

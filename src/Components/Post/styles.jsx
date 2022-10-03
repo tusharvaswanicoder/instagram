@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const defaultProfilePicLink = `${process.env.PUBLIC_URL}/assets/default-profile.jpg`;
 
@@ -83,6 +83,41 @@ export const Options = styled.button`
 
 export const Images = styled.div`
     position: relative;
+`;
+
+const heartAnimation = keyframes`
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    15% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(.95);
+    }
+    45%, 80% {
+        opacity: .9;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+`;
+
+export const Heart = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    background: var(--all-icons2);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    height: 128px;
+    width: 128px;
+    animation: ${heartAnimation} 1s ease-in-out forwards;
 `;
 
 export const ImagesTrackWrapper = styled.div`

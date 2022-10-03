@@ -16,6 +16,7 @@ import {
     Content,
     EmojiPicker,
     Forward,
+    Heart,
     Image,
     Images,
     ImagesTrack,
@@ -65,6 +66,13 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
         return () =>
             window.removeEventListener("resize", debounce(onResize, 500));
     }, []);
+    // const doubleClickLike = ({ target }) => {
+    //     target.addEventListener("click", () => {
+    //         setLiked(true);
+    //         target.removeEventListener("click", () => {});
+    //     });
+    //     setTimeout(() => target.removeEventListener("click", () => {}), 300);
+    // };
     const likeUnlike = ({ target }) => {
         setLiked((prev) => !prev);
         target.classList.add("scale-up");
@@ -179,6 +187,7 @@ export const Post = ({ user, images, likes, caption: orginalCaption }) => {
                 </Options>
             </UserOptions>
             <Images ref={imagesContainer}>
+                <Heart />
                 {activeSlide !== 0 && (
                     <Backward
                         onClick={() =>

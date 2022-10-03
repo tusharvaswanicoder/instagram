@@ -26,6 +26,7 @@ function App() {
                         </Main>
                     }
                 />
+                {/* <Route path="/:" /> */}
                 <Route path="/accounts" element={<Accounts />}>
                     <Route path="login" element={<Login />} />
                     <Route path="emailsignup" element={<Signup />} />

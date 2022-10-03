@@ -35,7 +35,7 @@ input:focus {
 
 .scale-up {
     transform-origin: center;
-    animation: like 0.3s ease-in;
+    animation: like 0.3s ease-in-out;
 }
 
 @keyframes like {
