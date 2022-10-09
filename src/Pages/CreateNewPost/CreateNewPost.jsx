@@ -15,7 +15,7 @@ import {
 import CropImage from "../../Components/CropImage/CropImage";
 
 const CreateNewPost = ({ close }) => {
-    const [files, setFiles] = useState([]);
+    const [images, setImages] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
     useEffect(() => {
         document.title = "Create new post • Instagram";
@@ -31,13 +31,13 @@ const CreateNewPost = ({ close }) => {
             content: (
                 <DragAndDropPhotos
                     next={() => setActiveStep(1)}
-                    setFiles={setFiles}
+                    setImages={setImages}
                 />
             ),
         },
         {
             title: "Crop",
-            content: <CropImage files={files} />,
+            content: <CropImage slides={images} />,
         },
     ];
     return (

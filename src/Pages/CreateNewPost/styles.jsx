@@ -23,7 +23,7 @@ export const CloseButton = styled.div`
 `;
 
 export const Container = styled.div`
-    height: 70rem;
+    min-height: 70rem;
     max-height: calc(100vh - 4rem);
     max-width: 60rem;
     width: 100%;
@@ -68,4 +68,9 @@ export const Next = styled.button`
 
 export const Content = styled.div`
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    & > div {
+        flex: 1;
+    }
 `;

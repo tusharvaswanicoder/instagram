@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../Button/Button";
 import { Container, Content, Error, Icon, Title } from "./styles";
 
-const DragAndDropPhotos = ({ setFiles, next }) => {
+const DragAndDropPhotos = ({ setImages, next }) => {
     const [fileNotSupported, setFileNotSupported] = useState();
     const [fileBeingDragged, setFileBeingDragged] = useState();
     const dropHandler = (e) => {
@@ -17,11 +17,11 @@ const DragAndDropPhotos = ({ setFiles, next }) => {
             "image/png",
             "image/svg+xml",
         ];
-        const files = e.dataTransfer.files;
+        const images = e.dataTransfer.files;
         let unsupportedFile;
-        for (const file of files) {
-            if (!allowedTypes.includes(file.type)) {
-                unsupportedFile = file.name;
+        for (const image of images) {
+            if (!allowedTypes.includes(image.type)) {
+                unsupportedFile = image.name;
                 break;
             }
         }
@@ -30,7 +30,7 @@ const DragAndDropPhotos = ({ setFiles, next }) => {
             return;
         }
 
-        setFiles(files);
+        setImages(images);
         next();
     };
     return (
