@@ -12,14 +12,20 @@ import {
     Image,
     Images,
     Input,
+    SlidesMenu,
+    SlidesMenuAddSlide,
+    SlidesMenuContent,
+    SlidesMenuSlide,
+    SlidesMenuSlideDelete,
     Zoom,
     ZoomMenu,
 } from "./styles";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { BiExpandAlt } from "react-icons/bi";
-import { AiOutlineZoomIn } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineZoomIn } from "react-icons/ai";
 import { BsImage, BsImages, BsSquare } from "react-icons/bs";
 import { TbRectangle, TbRectangleVertical } from "react-icons/tb";
+import { IoCloseOutline } from "react-icons/io5";
 import "cropperjs/dist/cropper.css";
 import debounce from "../../Helpers/debounce";
 
@@ -46,7 +52,7 @@ const aspectRatios = [
     },
 ];
 
-const CropImage = ({ slides }) => {
+const CropImage = ({ slides, setSlides }) => {
     const croppers = useRef([]);
     const images = useRef([]);
     const container = useRef();
@@ -57,6 +63,7 @@ const CropImage = ({ slides }) => {
     const [aspectRatioMenuVisible, setAspectRatioMenuVisible] = useState(false);
     const [zoomLevelMenuVisible, setZoomLevelMenuVisible] = useState(false);
     const [zoomLevel, setZoomLevel] = useState(1);
+    const [slidesMenuVisible, setSlidesMenuVisible] = useState(false);
     useEffect(() => {
         const onResize = () => {
             setContainerWidth(container.current.offsetWidth);
@@ -132,6 +139,26 @@ const CropImage = ({ slides }) => {
                     />
                 </ZoomMenu>
             )}
+            <SlidesMenu>
+                <SlidesMenuContent>
+                    {Object.values(slides).map((slide, index) => (
+                        <SlidesMenuSlide
+                            onClick={() => setActiveImage(index)}
+                            key={index}
+                            src={URL.createObjectURL(slide)}
+                        >
+                            {index === activeImage && (
+                                <SlidesMenuSlideDelete>
+                                    <IoCloseOutline />
+                                </SlidesMenuSlideDelete>
+                            )}
+                        </SlidesMenuSlide>
+                    ))}
+                </SlidesMenuContent>
+                <SlidesMenuAddSlide>
+                    <AiOutlinePlus />
+                </SlidesMenuAddSlide>
+            </SlidesMenu>
             <AspectRatioZoom>
                 <AspectRatio
                     onClick={() => {

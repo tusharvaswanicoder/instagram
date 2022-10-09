@@ -90,13 +90,17 @@ export const Gallery = styled.div`
     ${({ isActive }) => (isActive ? activeStyle : "")}
 `;
 
-export const AspectRatioMenu = styled.div`
+const aspectRatioZoomSlidesMenuCommonStyles = `
     background: rgba(26, 26, 26, 0.8);
     border-radius: 8px;
     position: absolute;
-    bottom: 6.4rem;
-    left: 1.6rem;
     z-index: 1;
+    bottom: 6.4rem;
+`;
+
+export const AspectRatioMenu = styled.div`
+    ${aspectRatioZoomSlidesMenuCommonStyles}
+    left: 1.6rem;
 `;
 
 export const AspectRatioMenuItem = styled.div`
@@ -123,15 +127,11 @@ export const AspectRatioMenuItem = styled.div`
 `;
 
 export const ZoomMenu = styled.div`
+    ${aspectRatioZoomSlidesMenuCommonStyles}
     padding: 1.5rem 1.2rem;
     width: 13rem;
-    background: rgba(26, 26, 26, 0.8);
-    border-radius: 8px;
     display: flex;
     align-items: center;
-    position: absolute;
-    z-index: 1;
-    bottom: 6.4rem;
     left: 6.4rem;
 `;
 
@@ -154,4 +154,62 @@ export const Input = styled.input`
     ::-moz-range-thumb {
         ${inputThumbStyle}
     }
+`;
+
+export const SlidesMenu = styled.div`
+    ${aspectRatioZoomSlidesMenuCommonStyles}
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    gap: 0.8rem;
+    max-width: calc(100% - 3.2rem);
+    margin: auto;
+    right: 1.6rem;
+`;
+
+export const SlidesMenuContent = styled.div`
+    flex: 1;
+    display: flex;
+    gap: 1.2rem;
+    overflow: hidden;
+`;
+
+export const SlidesMenuSlide = styled.div`
+    width: 9.4rem;
+    height: 9.4rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("${({ src }) => src}");
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+`;
+
+export const SlidesMenuSlideDelete = styled.div`
+    background: rgba(26, 26, 26, 0.8);
+    color: #fff;
+    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+`;
+
+export const SlidesMenuAddSlide = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.1rem solid rgb(var(--ig-separator));
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    color: rgb(var(--ig-secondary-text));
+    font-size: 2.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
 `;

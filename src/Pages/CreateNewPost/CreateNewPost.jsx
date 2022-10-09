@@ -37,7 +37,7 @@ const CreateNewPost = ({ close }) => {
         },
         {
             title: "Crop",
-            content: <CropImage slides={images} />,
+            content: <CropImage slides={images} setSlides={setImages} />,
         },
     ];
     return (
