@@ -4,6 +4,7 @@ import { Container, Name, NameUserName, ProfilePic, UserName } from "./styles";
 
 const Account = () => {
     const [userDetails, loading] = useAuthState();
+    console.log(loading);
     if (loading) return null;
     return (
         <Container>
