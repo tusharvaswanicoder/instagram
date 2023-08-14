@@ -17,35 +17,35 @@ const AuthContextProvider = ({ children }) => {
             setLoading(false);
         });
     };
-    useEffect(() => {
-        if (!loading) {
-            if (userDetails) {
-                if (userDetails.email_verified) {
-                    navigate("/");
-                } else {
-                    navigate("/accounts/emailsignup");
-                }
-            } else {
-                if (
-                    !pathname.includes("login") &&
-                    !pathname.includes("emailsignup")
-                ) {
-                    navigate("/accounts/login");
-                }
-            }
-        }
-    }, [loading, userDetails, pathname, navigate]);
-    useEffect(() => {
-        const authToken = JSON.parse(localStorage.getItem("authToken"));
-        if (!authToken) {
-            localStorage.removeItem("authToken");
-            setUserDetails(null);
-            setLoading(false);
-            return;
-        }
-        localStorage.setItem("authToken", JSON.stringify(authToken));
-        fetchUserInfo();
-    }, []);
+    // useEffect(() => {
+    //     if (!loading) {
+    //         if (userDetails) {
+    //             if (userDetails.email_verified) {
+    //                 navigate("/");
+    //             } else {
+    //                 navigate("/accounts/emailsignup");
+    //             }
+    //         } else {
+    //             if (
+    //                 !pathname.includes("login") &&
+    //                 !pathname.includes("emailsignup")
+    //             ) {
+    //                 navigate("/accounts/login");
+    //             }
+    //         }
+    //     }
+    // }, [loading, userDetails, pathname, navigate]);
+    // useEffect(() => {
+    //     const authToken = JSON.parse(localStorage.getItem("authToken"));
+    //     if (!authToken) {
+    //         localStorage.removeItem("authToken");
+    //         setUserDetails(null);
+    //         setLoading(false);
+    //         return;
+    //     }
+    //     localStorage.setItem("authToken", JSON.stringify(authToken));
+    //     fetchUserInfo();
+    // }, []);
     return (
         <AuthContext.Provider value={[userDetails, loading, fetchUserInfo]}>
             {children}
